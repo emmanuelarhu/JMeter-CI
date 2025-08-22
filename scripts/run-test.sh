@@ -5,7 +5,7 @@
 
 TEST_TYPE=${1:-load-test}
 USERS=${2:-50}
-DURATION=${3:-300}
+DURATION=${3:-2000}
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 # Check if JMeter is installed
