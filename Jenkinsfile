@@ -42,11 +42,12 @@ pipeline {
                         echo "Installing JMeter..."
                         sh """
                             sudo mkdir -p /opt
-                            cd /opt
-                            sudo wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
-                            sudo tar -xzf apache-jmeter-5.6.2.tgz
-                            sudo mv apache-jmeter-5.6.2 apache-jmeter
+                            cd /tmp
+                            wget --timeout=30 --tries=3 https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
+                            sudo tar -xzf apache-jmeter-5.6.2.tgz -C /opt/
+                            sudo mv /opt/apache-jmeter-5.6.2 /opt/apache-jmeter
                             sudo chmod +x /opt/apache-jmeter/bin/jmeter
+                            sudo chown -R jenkins:jenkins /opt/apache-jmeter
                             rm -f apache-jmeter-5.6.2.tgz
                         """
                     }
