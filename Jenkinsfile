@@ -12,12 +12,10 @@ pipeline {
 
         stage('Run JMeter Test') {
 			steps {
-				// Clean old reports if any exists
-                sh 'rm -rf reports results.jtl || true'
+				sh 'rm -rf reports results.jtl || true'
 
-                // Run JMeter in non-GUI mode
-                sh '''
-                jmeter -n -t HTTP(S) Test Script Recorder.jmx \
+             sh '''
+                jmeter -n -t load-test.jmx \
                        -l results.jtl \
                        -e -o reports
                 '''
@@ -43,9 +41,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-
-
