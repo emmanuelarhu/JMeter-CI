@@ -34,6 +34,24 @@ pipeline {
             steps {
                 echo "Starting ${params.TEST_TYPE} with ${params.USERS} users"
                 sh "mkdir -p results"
+                
+                // Install JMeter if not present
+                script {
+                    def jmeterExists = sh(script: "test -f ${JMETER_HOME}/bin/jmeter", returnStatus: true)
+                    if (jmeterExists != 0) {
+                        echo "Installing JMeter..."
+                        sh """
+                            sudo mkdir -p /opt
+                            cd /opt
+                            sudo wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
+                            sudo tar -xzf apache-jmeter-5.6.2.tgz
+                            sudo mv apache-jmeter-5.6.2 apache-jmeter
+                            sudo chmod +x /opt/apache-jmeter/bin/jmeter
+                            rm -f apache-jmeter-5.6.2.tgz
+                        """
+                    }
+                }
+                
                 sh "${JMETER_HOME}/bin/jmeter --version"
             }
         }
